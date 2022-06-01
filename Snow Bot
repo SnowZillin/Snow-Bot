@@ -1,0 +1,110 @@
+
+
+import discord
+import random
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    general_channel = client.get_channel(CHANNEL ID)
+    await general_channel.send('Online')
+
+@client.event
+async def on_message(message):
+
+    list = ['!Dice roll 1','!Dice roll 2','!Dice roll 3','!Dice roll 4','!Dice roll 5','!Dice roll 6']
+    general_channel = client.get_channel(CHANNEL ID)
+    msg = message.content
+    money = 1000
+
+    # Public variables
+
+    if msg == '!Motive':
+        
+        motive = ['Boy I wont have a problem if you aim high and miss. But im gonna have a real issue if you aim low and hit.','The greatest glory in living lies not in never falling, but in rising every time we fall. -Nelson Mandela', 'The way to get started is to quit talking and begin doing. -Walt Disney', "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking. -Steve Jobs", 'If life were predictable it would cease to be life, and be without flavor. -Eleanor Roosevelt', "If you look at what you have in life, you'll always have more. If you look at what you don't have in life, you'll never have enough. -Oprah Winfrey", "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success. -James Cameron", "Life is what happens when you're busy making other plans. -John Lennon", "Spread love everywhere you go. Let no one ever come to you without leaving happier. -Mother Teresa", "When you reach the end of your rope, tie a knot in it and hang on. -Franklin D. Roosevelt", "Always remember that you are absolutely unique. Just like everyone else. -Margaret Mead", "Don't judge each day by the harvest you reap but by the seeds that you plant. -Robert Louis Stevenson", "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt", "Tell me and I forget. Teach me and I remember. Involve me and I learn. -Benjamin Franklin", "The best and most beautiful things in the world cannot be seen or even touched — they must be felt with the heart. -Helen Keller", "It is during our darkest moments that we must focus to see the light. -Aristotle", "Whoever is happy will make others happy too. -Anne Frank", "Do not go where the path may lead, go instead where there is no path and leave a trail. -Ralph Waldo Emerson", '"Spread love everywhere you go. Let no one ever come to you without leaving happier." -Mother Teresa', "You will face many defeats in life, but never let yourself be defeated. -Maya Angelou", "In the end, it's not the years in your life that count. It's the life in your years. -Abraham Lincoln", "You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose. -Dr. Seuss", ' "Life is a succession of lessons which must be lived to be understood." -Ralph Waldo Emerson', '"Never let the fear of striking out keep you from playing the game." -Babe Ruth', '"Life is what happens when youre busy making other plans." -John Lennon', "Many of life's failures are people who did not realize how close they were to success when they gave up. -Thomas A. Edison"]
+        ran_num = random.randint(1,24)
+        
+        await general_channel.send(motive[ran_num])
+    
+    # Provides a famous quote
+
+    if msg == '!Gamble':
+        await general_channel.send('Current games: !Dice roll 1-6 !Wheel !Coin Heads/Tails')
+
+    # Provides a list of commands for gambling
+
+    if msg in list:
+        ran_num = random.randint(0,5)
+        ran_list = ('1','2','3','4','5','6')
+
+        if msg == list[ran_num]:
+            total_money = money + 100
+            await general_channel.send('You rolled a ' + ran_list[ran_num] + ' and won!')
+            await general_channel.send('Your current balance is ' + str(total_money) + '.')
+
+        else:
+            total_money = money - 100
+            await general_channel.send('You rolled a ' + ran_list[ran_num] + ' and lost.')
+            await general_channel.send('Your current balance is ' + str(total_money) + '.')
+    
+    # Dice rolls
+
+    if msg == '!Wheel':
+        ticker = 0
+        ran_num = random.randint(1,6)
+        await general_channel.send('Red = 3x | Green = 2x | Blue = 0x')
+        
+        while 3 > ticker:
+            await general_channel.send('Spinning...')
+            ticker += 1
+        
+        if ran_num == 1:
+            total_money = money * 3
+            await general_channel.send('You landed on Red and won!')
+            await general_channel.send('Your current balance is ' + str(total_money) + '.')
+
+        if ran_num == 2:
+            total_money = money * 2
+            await general_channel.send('You landed on Green and won!')
+            await general_channel.send('Your current balance is ' + str(total_money) + '.')
+
+        if ran_num in (3,4,5,6):
+            total_money = money * 0
+            await general_channel.send('You landed on Blue and lost.')
+            await general_channel.send('Your current balance is ' + str(total_money) + '.')
+
+    
+        # Roulette wheel 
+
+    if msg in ('!Coin Heads', '!Coin Tails'):
+        ran_num = random.randint(0,1)
+        coin_list = ['!Coin Heads', '!Coin Tails']
+        
+        if ran_num == 0:
+            x = '!Coin Heads'
+
+            if msg == x:
+                total_money = money + 100
+                await general_channel.send('You landed on Heads and won.')
+                await general_channel.send('Your current balance is ' + str(total_money) + '.')
+            else:
+                total_money = money - 100
+                await general_channel.send('You landed on Tails and lost.')
+                await general_channel.send('Your current balance is ' + str(total_money) + '.')
+
+        if ran_num == 1:
+            x = '!Coin Tails'
+
+            if msg == x:
+                total_money = money + 100
+                await general_channel.send('You landed on Tails and won.')
+                await general_channel.send('Your current balance is ' + str(total_money) + '.')
+            else:
+                total_money = money - 100
+                await general_channel.send('You landed on Heads and lost.')
+                await general_channel.send('Your current balance is ' + str(total_money) + '.')
+        
+        # Coin flip 
+
+client.run(TOKEN)
